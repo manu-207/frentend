@@ -28,6 +28,8 @@ jobs:
         uses: jakejarvis/s3-sync-action@v0.5.2
         with:
           args: --acl public-read --exclude '.git/*' --delete
+          source: client/build/ # Specify the path to your built files
+          dest: build/  # Specify the S3 folder where files should be uploaded
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
