@@ -1,0 +1,25 @@
+name: Upload to S3
+
+on:
+  push:
+    branches:
+      - main # Change this to the branch you want to trigger the action on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1 # Replace with your desired AWS region
+
+      - name: Upload files to S3
+        run: |
+          aws s3 sync ./path/to/local/directory s3://githubactions--s3/
+        # Replace the source directory and S3 bucket name with your own values
